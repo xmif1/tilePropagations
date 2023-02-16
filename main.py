@@ -99,9 +99,6 @@ if __name__ == "__main__":
     tiles = json.load(open("/Users/xandrumifsud/Downloads/tilings-3.json"))
 
     for tileID in tiles:
-        if tileID == 'BDL':
-            x = 1
-
         tile = {int(k): v for k, v in tiles[tileID].items()}
 
         print("\n---------------------------------\n3-colour Propagations for " + tileID)
