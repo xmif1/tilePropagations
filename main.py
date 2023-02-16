@@ -1,6 +1,7 @@
 import json
 import copy
 
+
 def findPropagation(queue, currColouring, colours, adjacencyList):
     if len(queue) == 0:
         return [((currColouring[1], currColouring[2]), (currColouring[3], currColouring[4]))]
@@ -95,17 +96,27 @@ def simplifyPropagations(propagations, colours):
 
 
 if __name__ == "__main__":
-    tiles = json.load(open("/Users/xandrumifsud/Downloads/tilings-2.json"))
+    tiles = json.load(open("/Users/xandrumifsud/Downloads/tilings-3.json"))
 
     for tileID in tiles:
+        if tileID == 'BDL':
+            x = 1
+
         tile = {int(k): v for k, v in tiles[tileID].items()}
 
         print("\n---------------------------------\n3-colour Propagations for " + tileID)
 
         for _input in [('a', 'b'), ('a', 'a')]:
+            if 2 in tile[1] and _input[0] == _input[1]:
+                continue
+
             colouring = dict.fromkeys(tile.keys(), '')
             colouring[1] = _input[0]
             colouring[2] = _input[1]
 
-            for p in simplifyPropagations(findPropagation(tile[1], colouring, ['a', 'b', 'c'], tile), ['a', 'b', 'c']):
+            queue = []
+            for v in tile[1]:
+                if v != 2: queue.append(v)
+
+            for p in simplifyPropagations(findPropagation(queue, colouring, ['a', 'b', 'c'], tile), ['a', 'b', 'c']):
                 print("(" + p[0][0] + ", " + p[0][1] + ") ~> (" + p[1][0] + ", " + p[1][1] + ")")
